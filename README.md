@@ -13,8 +13,10 @@ Used BC Math lib for money calculation
 ## Usage
 ### Run:
 Project is dockerized and can be run with `docker-compose up -d`. 
+
 Nginx service is configured to proxy requests coming on `11080` port. 
-That can be changed in `docker-composer.yml`.
+
+Sent emails can be viewed via `mailcatcher` at `http://127.0.0.1:21080`
 
 ### API
 
@@ -57,68 +59,4 @@ curl -X POST http://127.0.0.1:11080/api/products -d '{
     }
   ]
 }'
-```
-Response
-```json
-{
-  "invoiceEntries": [
-    {
-      "productId": "1ecd4a4b-cca6-607e-82d0-e1bcc9fbbc99",
-      "productName": "product 1",
-      "quantity": 1,
-      "taxRate": "42.26",
-      "basePricePerItem": "243.00",
-      "taxAmountPerItem": "102.69",
-      "basePriceTotal": "243.00",
-      "taxAmountTotal": "102.69",
-      "total": "345.69"
-    },
-    {
-      "productId": "1ecd4a4b-ccac-6474-ae16-e1bcc9fbbc99",
-      "productName": "product 2",
-      "quantity": 2,
-      "taxRate": "82.39",
-      "basePricePerItem": "640.00",
-      "taxAmountPerItem": "527.29",
-      "basePriceTotal": "1280.00",
-      "taxAmountTotal": "1054.59",
-      "total": "2334.59"
-    }
-  ],
-  "total": "2680.28",
-  "totalTaxAmount": "1157.28",
-  "totalBasePrice": "1523.00"
-}
-```
-For  `invoiceFormat:"xml"`:
-```xml
-<?xml version="1.0"?>
-<response>
-    <invoiceEntries>
-        <productId>1ecd4a4b-cca6-607e-82d0-e1bcc9fbbc99</productId>
-        <productName>product 1</productName>
-        <quantity>1</quantity>
-        <taxRate>42.26</taxRate>
-        <basePricePerItem>243.00</basePricePerItem>
-        <taxAmountPerItem>102.69</taxAmountPerItem>
-        <basePriceTotal>243.00</basePriceTotal>
-        <taxAmountTotal>102.69</taxAmountTotal>
-        <total>345.69</total>
-    </invoiceEntries>
-    <invoiceEntries>
-        <productId>1ecd4a4b-ccac-6474-ae16-e1bcc9fbbc99</productId>
-        <productName>product 2</productName>
-        <quantity>2</quantity>
-        <taxRate>82.39</taxRate>
-        <basePricePerItem>640.00</basePricePerItem>
-        <taxAmountPerItem>527.29</taxAmountPerItem>
-        <basePriceTotal>1280.00</basePriceTotal>
-        <taxAmountTotal>1054.59</taxAmountTotal>
-        <total>2334.59</total>
-    </invoiceEntries>
-    <total>2680.28</total>
-    <totalTaxAmount>1157.28</totalTaxAmount>
-    <totalBasePrice>1523.00</totalBasePrice>
-</response>
-
 ```

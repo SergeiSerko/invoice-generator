@@ -31,6 +31,7 @@ services:
     depends_on:
       - composer
       - mysql
+      - mail
     logging:
       driver: json-file
 
@@ -47,6 +48,9 @@ services:
       - mysql-data:/var/lib/mysql/:rw
     logging:
       driver: json-file
-
+  mail:
+    image: schickling/mailcatcher
+    ports:
+      - "21080:1080"
 volumes:
   mysql-data:
