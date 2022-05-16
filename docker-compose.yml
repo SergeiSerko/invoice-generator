@@ -1,0 +1,51 @@
+version: '3.7'
+
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "11080:80"
+    volumes:
+      - ./build/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+      - ./:/www/app
+    depends_on:
+      - php-fpm
+    logging:
+      driver: json-file
+
+  composer:
+    image: composer:2
+    volumes:
+      - ./:/www/app
+    entrypoint: [ "composer", "install" ]
+    logging:
+      driver: json-file
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: ./build/fpm/Dockerfile
+    volumes:
+      - ./:/www/app
+    depends_on:
+      - composer
+      - mysql
+    logging:
+      driver: json-file
+
+  mysql:
+    image: mysql:5.7
+    command: mysqld --sql-mode ""
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${REST_TEST_DB_PASSWORD:-root}
+      - MYSQL_DATABASE=${REST_TEST_DB_NAME:-resttest}
+      - MYSQL_USER=${REST_TEST_DB_USER:-resttest}
+      - MYSQL_PASSWORD=${REST_TEST_DB_PASSWORD:-resttest}
+    volumes:
+      - mysql-data:/var/lib/mysql/:rw
+    logging:
+      driver: json-file
+
+volumes:
+  mysql-data:
