@@ -1,0 +1,5 @@
+docker-compose.yml
+vendor/
+.git
+.idea/
+var/
